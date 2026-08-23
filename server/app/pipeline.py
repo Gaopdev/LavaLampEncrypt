@@ -44,52 +44,6 @@ def cifrar_con_lampara(mensaje: str):
     return {
         "ciphertext" : resultado["ciphertext"].hex(),
         "nonce" : resultado["nonce"].hex(),
-        "bits_generados" : len(bits)
+        "bits_generados" : len(bits),
+        "clave" : clave
     }
-
-
-#Comprobacion
-if __name__ == "__main__":
-
-    frames = capturar_frames()
-    bits = obtener_bits_desde_frames()
-    clave = generar_clave(bits)
-
-    mensaje = "Mensaje generado con entropía física"
-    
-    resultado = cifrar_mensaje(
-        mensaje,
-        clave
-    )
-
-    mensaje_descifrado = descifrar_mensaje(
-        resultado["ciphertext"],
-        resultado["nonce"],
-        clave
-    )
-
-    print("=== PRUEBA DE INTEGRACIÓN ===")
-
-    print("\nClave:")
-    print(clave.hex())
-
-    print("\nMensaje original:")
-    print(mensaje)
-
-    print("\nCiphertext:")
-    print(
-        resultado["ciphertext"].hex()
-    )
-
-    print("\nNonce:")
-    print(
-        resultado["nonce"].hex()
-    )
-
-    print("\nMensaje descifrado:")
-    print(mensaje_descifrado)
-
-    print("\n¿Coinciden?")
-    print(
-        mensaje == mensaje_descifrado
-    )
