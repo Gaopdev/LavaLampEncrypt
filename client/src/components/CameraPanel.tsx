@@ -1,6 +1,10 @@
 import { useCamera } from "../hooks/useCamera"
 
-export default function CameraPanel() {
+interface CameraPanelProps {
+  isEncrypting?: boolean
+}
+
+export default function CameraPanel({ isEncrypting = false }: CameraPanelProps) {
   const { videoRef, status, startCamera, stopCamera } = useCamera()
 
   const statusText = status === "CONNECTED" ? "CONECTADA" : "DESCONECTADA"
@@ -53,16 +57,34 @@ export default function CameraPanel() {
           CÁMARA DESCONECTADA
         </div>
       ) : (
-        <video
-          ref={videoRef}
-          autoPlay
-          style={{
-            width: "100%",
-            borderRadius: "8px",
-            background: "#000",
-            border: "1px solid rgba(255,106,61,0.2)"
-          }}
-        />
+        // Contenedor relative para poder poner el overlay encima del video
+        <div style={{ position: "relative", overflow: "hidden", borderRadius: "8px" }}>
+          <video
+            ref={videoRef}
+            autoPlay
+            style={{
+              width: "100%",
+              display: "block",
+              borderRadius: "8px",
+              background: "#000",
+              border: "1px solid rgba(255,106,61,0.2)"
+            }}
+          />
+
+          {isEncrypting && (
+            <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+              <div style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                height: "3px",
+                background: "linear-gradient(to right, transparent, #FF6A3D, transparent)",
+                boxShadow: "0 0 8px #FF6A3D, 0 0 16px #FF6A3D",
+                animation: "scan 1.5s linear infinite"
+              }} />
+            </div>
+          )}
+        </div>
       )}
 
       <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
@@ -77,6 +99,14 @@ export default function CameraPanel() {
       <p style={{ color: "#2d3748", fontSize: "0.7rem", marginTop: "0.8rem", fontFamily: "monospace" }}>
         * El servidor captura la cámara física al cifrar
       </p>
+
+      {/* @keyframes no se puede escribir inline, necesita esta etiqueta */}
+      <style>{`
+        @keyframes scan {
+          0%   { top: 0%; }
+          100% { top: 100%; }
+        }
+      `}</style>
     </div>
   )
 }
