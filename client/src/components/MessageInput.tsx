@@ -10,28 +10,42 @@ export default function MessageInput({ onEncrypt, loading }: Props) {
 
   return (
     <div style={{
-      background: "#0d0d1f",
-      border: "1px solid #1a1a3a",
+      background: "#0D131F",
       borderRadius: "12px",
-      padding: "1.5rem"
+      padding: "1.5rem",
+      borderLeft: "3px solid #3ED6C4",
+      boxShadow: "0 4px 24px rgba(62, 214, 196, 0.05)",
+      backgroundImage: `linear-gradient(to right, rgba(62,214,196,0.03) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(62,214,196,0.03) 1px, transparent 1px)`,
+      backgroundSize: "20px 20px"
     }}>
-      <h2 style={{ color: "#00ccff", marginTop: 0 }}>MESSAGE TO ENCRYPT</h2>
+      <h2 style={{
+        color: "#3ED6C4",
+        marginTop: 0,
+        fontSize: "0.85rem",
+        letterSpacing: "0.2em",
+        fontFamily: "monospace"
+      }}>
+        ◈ MENSAJE A CIFRAR
+      </h2>
 
       <textarea
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        placeholder="Enter the message you want to encrypt..."
-        rows={4}
+        placeholder="Escribe el mensaje que deseas cifrar..."
+        rows={5}
         style={{
           width: "100%",
-          background: "#050510",
-          border: "1px solid #1a1a3a",
+          background: "rgba(6, 8, 13, 0.8)",
+          border: "1px solid rgba(62, 214, 196, 0.15)",
           borderRadius: "8px",
-          color: "#ffffff",
+          color: "#e2e8f0",
           padding: "1rem",
-          fontSize: "0.9rem",
+          fontSize: "0.85rem",
           resize: "vertical",
-          boxSizing: "border-box"
+          boxSizing: "border-box",
+          fontFamily: "monospace",
+          outline: "none"
         }}
       />
 
@@ -39,26 +53,27 @@ export default function MessageInput({ onEncrypt, loading }: Props) {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        marginTop: "0.5rem"
+        marginTop: "0.8rem"
       }}>
-        <span style={{ color: "#6666aa", fontSize: "0.8rem" }}>
-          {message.length} characters
+        <span style={{ color: "#4a5568", fontSize: "0.75rem", fontFamily: "monospace" }}>
+          {message.length} caracteres
         </span>
         <button
           onClick={() => onEncrypt(message)}
           disabled={loading || message.trim() === ""}
           style={{
-            background: loading ? "#333" : "#00ccff",
-            color: "#000",
-            border: "none",
-            padding: "0.7rem 1.5rem",
+            background: "transparent",
+            color: loading ? "#4a5568" : "#3ED6C4",
+            border: `1px solid ${loading ? "#2d3748" : "#3ED6C4"}`,
+            padding: "0.6rem 1.5rem",
             borderRadius: "6px",
             cursor: loading ? "not-allowed" : "pointer",
-            fontWeight: "bold",
-            letterSpacing: "0.1em"
+            fontFamily: "monospace",
+            fontSize: "0.8rem",
+            letterSpacing: "0.15em"
           }}
         >
-          {loading ? "ENCRYPTING..." : "ENCRYPT MESSAGE"}
+          {loading ? "CIFRANDO..." : "CIFRAR MENSAJE"}
         </button>
       </div>
     </div>
